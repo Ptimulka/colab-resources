@@ -12,8 +12,6 @@ import os
 import math
 import sys
 import IPython
-import warnings
-warnings.filterwarnings("error")
 from termcolor import colored
 from urllib.parse import urlparse
 
