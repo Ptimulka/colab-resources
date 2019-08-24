@@ -1,3 +1,5 @@
+from PIL import Image
+
 class FileBrowser(object):
     def __init__(self, image_info, path=None):
         self.out = widgets.Output()
@@ -132,9 +134,15 @@ def upload_file(image_info):
 
 
 class ImageSizeChooser(object):
+
+    def load_img_size(self, path_to_img, scale):
+        img = Image.open(path_to_img)
+        img = img.resize((round(img.size[0] * scale), round(img.size[1] * scale)), Image.ANTIALIAS)
+        return img.size
+
     def init_recommended(self):
         try:
-            width, height = load_img_size(image_info.gdrivepath, 1)
+            width, height = self.load_img_size(image_info.gdrivepath, 1)
             with self.out:
                 self.original_info = "Original image size is: " + str(width) + "x" + str(height)
                 longer = max(width, height)
@@ -164,7 +172,7 @@ class ImageSizeChooser(object):
                     if (self.recommended_info is not None):
                         print(self.recommended_info)
                     print(colored("Scale set to " + str(self.scale_slider.value) + "%", 'green'))
-                    width, height = load_img_size(image_info.gdrivepath, float(self.scale_slider.value) / 100)
+                    width, height = self.load_img_size(image_info.gdrivepath, float(self.scale_slider.value) / 100)
                     print("Image size: " + str(width) + "x" + str(height))
                     IPython.display.display(IPython.display.Image(image_info.gdrivepath, width=width))
                     self.image_info.scale = self.scale_slider.value

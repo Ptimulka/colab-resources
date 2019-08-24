@@ -1,6 +1,2 @@
-exec(open("colab-resources/scripts/init_neuralstyle.py").read())
 exec(open("colab-resources/scripts/init_gdrive.py").read())
-exec(open("colab-resources/scripts/common/init_images_functions.py").read())
 exec(open("colab-resources/scripts/common/init_file_choosers.py").read())
-exec(open("colab-resources/scripts/common/init_nn.py").read())
-exec(open("colab-resources/scripts/common/init_run_style_transfer.py").read())
