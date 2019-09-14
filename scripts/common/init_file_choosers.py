@@ -1,123 +1,13 @@
+import os
+import math
+import uuid
+import IPython
 from PIL import Image
+import ipywidgets as widgets
+from termcolor import colored
+from urllib.parse import urlparse
 
-class FileBrowser(object):
-    def __init__(self, image_info, path=None):
-        self.out = widgets.Output()
-        IPython.display.display(self.out)
-        self.image_info = image_info
-        if path == None:
-            self.path = os.getcwd()
-        else:
-            self.path = path
-        self._update_files()
-
-    def _update_files(self):
-        self.files = list()
-        self.dirs = list()
-        self.dirs.append("..")
-        if (os.path.isdir(self.path)):
-            for f in os.listdir(self.path):
-                ff = self.path + "/" + f
-                if os.path.isdir(ff):
-                    self.dirs.append(f)
-                else:
-                    self.files.append(f)
-
-    def widget(self):
-        box = widgets.VBox()
-        self._update(box)
-        return box
-
-    def _update(self, box):
-
-        def on_click(b):
-            if b.description == '..':
-                self.path = os.path.split(self.path)[0]
-            else:
-                self.path = self.path + "/" + b.description
-            self._update_files()
-            self._update(box)
-
-        buttons = []
-        width = 5
-        hboxes = []
-        hboxes_len = math.ceil((len(self.dirs) + len(self.files)) / width)
-        for i in range(hboxes_len):
-            hboxes.append(widgets.HBox())
-        hboxes_children = [[] for i in range(hboxes_len)]
-        i = 0
-        for f in self.dirs:
-            button = widgets.Button(description=f, button_style='warning')
-            button.on_click(on_click)
-            hboxes_children[math.floor(i / width)].append(button)
-            i += 1
-        for f in self.files:
-            button = widgets.Button(description=f)
-            button.on_click(on_click)
-            hboxes_children[math.floor(i / width)].append(button)
-            i += 1
-        for hbox, children in zip(hboxes, hboxes_children):
-            hbox.children = children
-
-        with self.out:
-            IPython.display.clear_output(wait=False)
-            try:
-                IPython.display.display(IPython.display.Image(self.path, width=500))
-                self.image_info.gdrivepath = self.path
-            except:
-                print("Choose image")
-
-        box.children = [widgets.HTML("<h2>%s</h2>" % (self.path,))] + hboxes
-
-
-class URLBrowser(object):
-    def __init__(self, image_info):
-        self.out = widgets.Output()
-        self.image_info = image_info
-        IPython.display.display(self.out)
-        self.url = ''
-
-    def widget(self):
-
-        def on_click(b):
-            with self.out:
-                IPython.display.clear_output(wait=False)
-                if (self.is_valid_url(self.text.value)):
-                    try:
-                        IPython.display.display(IPython.display.Image(self.text.value, width=500))
-                        gdrive_path = self.download_to_gdrive(self.text.value)
-                        self.image_info.gdrivepath = gdrive_path
-                    except:
-                        print(colored("Exception: Not image URL", 'red'))
-                else:
-                    print(colored("Not image URL", 'red'))
-
-        box = widgets.VBox()
-        self.button = widgets.Button(description="Load image")
-        self.button.on_click(on_click)
-        self.text = widgets.Text(
-            value="",
-            description='Image URL: ',
-            disabled=False
-        )
-        box.children = [self.text, self.button]
-        return box
-
-    def is_valid_url(self, url):
-        parsed = urlparse(url)
-        return (parsed.scheme and parsed.netloc)
-
-    def download_to_gdrive(self, url):
-        parsed = urlparse(url)
-        basename = os.path.basename(parsed.path)
-        newfilename = str(uuid.uuid4()) + basename
-        !wget --quiet - P
-        "$input_gdrive_path" $url
-        newfilefrompath = input_gdrive_path + "/" + basename
-        newfiletopath = input_gdrive_path + "/" + newfilename
-        !mv "$newfilefrompath" "$newfiletopath"
-        return newfiletopath
-
+# TODO move somewhere and update code
 
 def upload_file(image_info):
     from google.colab import files

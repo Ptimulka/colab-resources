@@ -1,9 +1,9 @@
 import os
 from termcolor import colored
 
-input_gdrive_path = "/content/gdrive/My Drive/NNinGColabs/input"
-output_gdrive_path = "/content/gdrive/My Drive/NNinGColabs/output"
-styles_gdrive_path = "/content/gdrive/My Drive/NNinGColabs/styles"
+input_gdrive_path = "/content/gdrive/My Drive/ArtisticGoogleColabs/input"
+output_gdrive_path = "/content/gdrive/My Drive/ArtisticGoogleColabs/output"
+styles_gdrive_path = "/content/gdrive/My Drive/ArtisticGoogleColabs/styles"
 
 
 def make_dir(path):
