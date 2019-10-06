@@ -57,7 +57,8 @@ class URLBrowser(object):
             retmv = os.system(mvcommand)
             if retmv == 0:
                 print(colored("Downloaded file path: " + newfiletopath, 'green'))
+                return newfiletopath
             else:
-                print(colored("Exception: Problem with mving the file", 'red'))
+                print(colored("Exception: Problem with moving the file", 'red'))
         else:
             print(colored("Exception: Problem with downloading the file", 'red'))
