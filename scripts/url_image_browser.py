@@ -47,7 +47,7 @@ class URLBrowser(object):
     def download_to_gdrive(self, url):
         parsed = urlparse(url)
         basename = os.path.basename(parsed.path)
-        newfilename = str(uuid.uuid4()) + basename
+        newfilename = str(uuid.uuid4())[:8] + basename
         wgetcommand = "wget --quiet -P '" + self.input_gdrive_path + "' " + url
         ret = os.system(wgetcommand)
         if ret == 0:
