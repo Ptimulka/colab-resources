@@ -94,7 +94,7 @@ class VideoBrowser(FileBrowser):
         try:
             clip = VideoFileClip(self.path)
             print(colored("You've chosen video: " + self.path, 'green'))
-            self.movie_info.gdrivepath = self.path
-            self.movie_info.length = int(clip.duration)
+            self.info.gdrivepath = self.path
+            self.info.length = int(clip.duration)
         except:
             print(colored("Choose video.", 'red'))
